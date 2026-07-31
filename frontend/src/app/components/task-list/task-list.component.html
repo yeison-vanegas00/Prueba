@@ -1,9 +1,8 @@
 <div class="page-container">
   <header class="page-header">
-    <h1>📋 Gestión de Tareas</h1>
+    <h1>Gestión de Tareas</h1>
     <button
       id="btn-nueva-tarea"
-      class="btn-new"
       (click)="openCreateForm()"
       *ngIf="!showForm"
     >
@@ -21,7 +20,7 @@
   </div>
 
   <!-- Estado de carga -->
-  <div class="loading" *ngIf="isLoading">Cargando tareas...</div>
+  <div *ngIf="isLoading">Cargando tareas...</div>
 
   <!-- Mensaje de error -->
   <div class="server-error" *ngIf="errorMessage && !isLoading">
@@ -29,12 +28,12 @@
   </div>
 
   <!-- Lista de tareas vacía -->
-  <div class="empty-state" *ngIf="!isLoading && !errorMessage && tasks.length === 0">
+  <div *ngIf="!isLoading && !errorMessage && tasks.length === 0">
     <p>No hay tareas registradas. ¡Crea la primera!</p>
   </div>
 
   <!-- Tabla de tareas -->
-  <div class="table-wrapper" *ngIf="!isLoading && tasks.length > 0">
+  <div *ngIf="!isLoading && tasks.length > 0">
     <table class="tasks-table">
       <thead>
         <tr>
@@ -47,13 +46,11 @@
       </thead>
       <tbody>
         <tr *ngFor="let task of tasks; trackBy: trackById">
-          <td class="titulo-cell">{{ task.titulo }}</td>
-          <td class="descripcion-cell">{{ task.descripcion || '—' }}</td>
+          <td>{{ task.titulo }}</td>
+          <td>{{ task.descripcion || '—' }}</td>
           <td>
             <select
               [id]="'status-' + task.id"
-              class="status-select"
-              [ngClass]="getStatusClass(task.estado)"
               [value]="task.estado"
               (change)="onStatusChange(task, $event)"
             >
@@ -61,80 +58,32 @@
             </select>
           </td>
           <td>{{ task.fechaCreacion | date: 'dd/MM/yyyy HH:mm' }}</td>
-          <td class="actions-cell">
-            <button
-              [id]="'btn-editar-' + task.id"
-              class="btn-edit"
-              (click)="openEditForm(task)"
-              title="Editar tarea"
-            >
-              ✏️ Editar
-            </button>
-            <button
-              [id]="'btn-eliminar-' + task.id"
-              class="btn-delete"
-              (click)="onDelete(task)"
-              title="Eliminar tarea"
-            >
-              🗑️ Eliminar
-            </button>
+          <td>
+            <button [id]="'btn-editar-' + task.id" (click)="openEditForm(task)">Editar</button>
+            <button [id]="'btn-eliminar-' + task.id" (click)="onDelete(task)">Eliminar</button>
           </td>
         </tr>
       </tbody>
     </table>
-    <p class="task-count">Total: {{ tasks.length }} tarea{{ tasks.length !== 1 ? 's' : '' }}</p>
+    <p>Total: {{ tasks.length }} tarea{{ tasks.length !== 1 ? 's' : '' }}</p>
   </div>
 </div>
 
 <style>
   .page-container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 32px 16px;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 16px;
+    font-family: Arial, sans-serif;
   }
 
   .page-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 28px;
-  }
-
-  .btn-new {
-    background-color: #27ae60;
-    color: #fff;
-    font-size: 0.95rem;
-    font-weight: 600;
-    padding: 10px 20px;
-    border-radius: 5px;
-  }
-
-  .btn-new:hover {
-    background-color: #219a52;
-  }
-
-  .loading {
-    text-align: center;
-    padding: 40px;
-    color: #888;
-    font-size: 1rem;
-  }
-
-  .server-error {
-    background: #fdf0ef;
-    border: 1px solid #e74c3c;
-    border-radius: 4px;
-    padding: 12px 16px;
-    color: #c0392b;
     margin-bottom: 16px;
   }
 
-  .empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: #aaa;
-    font-size: 1.1rem;
-  }
 
   .table-wrapper {
     overflow-x: auto;
