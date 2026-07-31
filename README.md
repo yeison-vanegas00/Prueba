@@ -9,6 +9,13 @@ Aplicación de gestión de tareas construida con Angular 20, NestJS, PostgreSQL 
 - **Base de datos**: PostgreSQL 16
 - **Contenedores**: Docker Compose
 
+## Arquitectura por Capas
+
+1. **Presentación**: Angular 20 (Componentes Standalone `TaskList` y `TaskForm`)
+2. **Servicio Cliente**: `TaskService` (consumo de API REST vía HttpClient)
+3. **Lógica de Negocio**: NestJS (`TasksController` y `TasksService` con validaciones DTO)
+4. **Persistencia**: TypeORM + PostgreSQL 16 (Entidad `Task` con UUID)
+
 ## Requisitos
 
 - Docker Desktop instalado y en ejecución
